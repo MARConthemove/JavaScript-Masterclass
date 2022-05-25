@@ -7,9 +7,8 @@
 //
 // Schreibe ein kleines Programm, was dies für den Schüler
 // erledigt ;)
-
-for (let i = 1; i <= 25; i++) {
-  console.log(i, 'Ich soll im Unterricht nicht stören')
+for (let i = 0; i < 25; i++) {
+  console.log('Ich soll im Unterricht nicht stören')
 }
 
 // Aufgabe 2: Sprachschule
@@ -25,32 +24,20 @@ for (let i = 1; i <= 25; i++) {
 // groß sind, ist deine Lösung richtig!
 //
 // Tipp: Modulo!
-let students = [
-  'Max',
-  'Monika',
-  'Franziska',
-  'Bernd',
-  'Tobias',
-  'Andreas',
-  'Tante Emma',
-]
+const students = ['Max', 'Monika', 'Franziska', 'Bernd', 'Tobias', 'Andreas']
 
-let students2 = []
+const students1 = []
+const students2 = []
 
-let courseModulo = students.length % 2
-console.log(courseModulo)
-
-if (courseModulo === 0) {
-  let courseNumber = students.length / 2
-  console.log(courseNumber)
-  let transferStudents = students.splice(
-    students.length - courseNumber,
-    courseNumber
-  )
-  let students2 = transferStudents
-  console.log(students)
-  console.log(students2)
+for (const i in students) {
+  if (i % 2 === 0) {
+    students1.push(students[i])
+  } else {
+    students2.push(students[i])
+  }
 }
+console.log('students1', students1)
+console.log('students2', students2)
 
 // Aufgabe 3
 //
@@ -80,60 +67,63 @@ if (courseModulo === 0) {
 //    investieren. Bis zu welchem Level (bei A1 angefangen) können wir
 //    ihn dafür unterrichten?
 
-
 let levels = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2']
-let prices = [ 400,  500,  550,  600,  650,  700]
+let prices = [400, 500, 550, 600, 650, 700]
 
-// a)
-let teilnehmerZiel = "C1"
-let teilnehmerZielIndex = levels.indexOf(teilnehmerZiel)
-console.log(teilnehmerZielIndex)
+// Teilaufgabe A
+let costsUntilC1 = 0
+for (const i in levels) {
+  const level = levels[i]
+  const price = prices[i]
 
-let priceTotal = 0
-for (let i = 0; i <= teilnehmerZielIndex; i++) {
-  priceTotal += prices[i]
+  costsUntilC1 += price
+
+  if (level === 'C1') {
+    break
+  }
 }
+console.log('Teilaufgabe A:', costsUntilC1)
 
-console.log(priceTotal)
-
-// b)
-let langNivStart = "A2"
-let startIndex = levels.indexOf(langNivStart)
-console.log(startIndex)
-
-let langNivEnd = "C1"
-let endIndex = levels.indexOf(langNivEnd)
-console.log(endIndex)
-
-let priceFromTo = 0
-for (let i = startIndex; i <= endIndex; i++) {
-  priceFromTo += prices[i]
-}
-console.log(priceFromTo)
-
-// c)
-let maxPrice = 1500
-let priceSoFar = 0
+// Teilaufgabe B
+let costsFromA2ToC1 = 0
+let levelA2Seen = false
 
 for (const i in levels) {
   const level = levels[i]
-  console.log(level)
-
   const price = prices[i]
-  console.log(price)
 
-  console.log(i)
+  if (level === 'A2') {
+    levelA2Seen = true
+  }
+
+  if (levelA2Seen) {
+    costsFromA2ToC1 += price
+  }
+
+  if (level === 'C1') {
+    break
+  }
+}
+console.log('Teilaufgabe B:', costsFromA2ToC1)
+
+// Teilaufgabe C
+let priceSoFar = 0
+for (const i in levels) {
+  const level = levels[i]
+  const price = prices[i]
 
   if (priceSoFar + price >= 1500) {
-    console.log(levels[i - 1])
+    // Der Teilnehmer kann sich den aktuell betrachteten Kurs
+    // nicht mehr leisten.
+    console.log(
+      'Wir können bis einschließlich hierhin unterrichten:',
+      levels[i - 1]
+    )
     break
   }
 
   priceSoFar += price
-  console.log(priceSoFar)
 }
-
-
 
 // Aufgabe 4
 //
@@ -159,13 +149,12 @@ let studentsPerCourse = [
 // Aufgaben:
 //
 //  a) Berechne die Anzahl der Teilnehmer in allen Kursen zusammen!
-//
-let num = 0
 
+let num = 0
 for (const course of studentsPerCourse) {
   num += course.length
 }
-console.log(num)
+console.log('Aufgabe 4, a:', num)
 
 //  b) Der Teilnehmer "Max" musste seinen Sprachkurs absagen. Schreibe
 //     ein Programm, was ihn aus seinem Kurs entfernt. Dieses Programm
@@ -178,25 +167,23 @@ console.log(num)
 //
 // Wichtig: Schreibe den Code so, dass er später auch mit 3 oder mehr
 // Sprachkursen zurechtkommt!
-//
 
-const studentToCancel = "Max"
+const studentToCancel = 'Max'
 let studentFound = false
 
 for (const course of studentsPerCourse) {
   if (course.indexOf(studentToCancel) !== -1) {
     const posStudentToCancel = course.indexOf(studentToCancel)
-    console.log(posStudentToCancel)
     course.splice(posStudentToCancel, 1)
 
     studentFound = true
     break
   }
 }
-console.log("Aufgabe 4, b) ", studentsPerCourse)
+console.log('Aufgabe 4, B:', studentsPerCourse)
 
 if (studentFound === false) {
-  console.log("Aufgabe 4, b) ", "Kein Teilnehmer entfernt")
+  console.log('Aufgabe 4, B: Kein Teilnehmer entfernt')
 }
 
 // Bonus-Aufgabe:
@@ -210,7 +197,6 @@ if (studentFound === false) {
 //     für eine Sprachschule akzeptabel?
 
 let indexLeastStudents = -1
-
 for (const i in studentsPerCourse) {
   const course = studentsPerCourse[i]
 
@@ -222,3 +208,4 @@ for (const i in studentsPerCourse) {
     }
   }
 }
+console.log('Aufgabe 4, C:', indexLeastStudents)
