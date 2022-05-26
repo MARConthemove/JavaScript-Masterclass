@@ -28,8 +28,9 @@ const courses = [
 //                       wenigsten Teilnehmer hat
 
 /**
- * Gibt den Index des Kurses mit den wenigsten Teilnehmern zurück
- * @returns {number} Gibt einen Index als String zurück
+ * Gibt den Index des Kurses zurück mit den wenigsten Teilnehmern
+ *
+ * @returns {number}
  */
 function getSmallestCourse() {
     // Ergänze den Code hier! Du darfst die Variable "courses"
@@ -46,8 +47,10 @@ function getSmallestCourse() {
             smallestCourse = course.length
         }
     }
+
     return smallestIndex
 }
+
 
 console.log("getSmallestCourse()", getSmallestCourse())
 
@@ -55,11 +58,13 @@ console.log("getSmallestCourse()", getSmallestCourse())
 //     einfügt, der bisher am wenigsten Teilnehmer hat!
 //     Wir nutzen hier das Ergebnis aus Teilaufgabe 1a weiter!
 
-
 /**
- * Name des Studenten wird dem kurz mit der geringsten Teilnehmerzahl hinzugefügt
- * @param {string} name Name des Studenten
- * @returns {void} Funktion hat keinen Rückgabewert, sie manipuliert lediglich das Kurs Array
+ * Füge einen Teilnehmer zum Sprachkurs mit am wenigsten Usern bisher
+ * hinzu
+ *
+ * @param {string} name Der Teilnehmer der hinzugefügt werden soll
+ *
+ * @returns {void}
  */
 function addStudent(name) {
     // Hier ermitteln wir, welcher Kurs bisher am wenigsten
@@ -130,10 +135,14 @@ const LANGUAGE_EN = [
 //     >> translateWord("Sprachkurs")
 //     >> // Rückgabewert: "language course"
 
+
 /**
- * Übersetzt ein Wort
- * @param {string} word
- * @returns {string}
+ * Übersetzt ein Wort auf Basis der Variablen LANGUAGE_DE und
+ * LANGUAGE_EN
+ *
+ * @param {string} word Das word, welches übersetzt werden soll
+ *
+ * @returns {string} Das übersetzte Wort
  */
 function translateWord(word) {
     word = word.toLowerCase()
@@ -170,10 +179,12 @@ console.log('translateWord("Sprachkurs")', translateWord("Sprachkurs"))
 //
 //     Das Ergebnis soll per "return" zurückgegeben werden
 
-
 /**
- * Schreibt den ersten Buchstaben einen Strings Groß
- * @param {string} word
+ * Schreibt den ersten Buchstaben eines Strings in Großbuchstaben
+ *
+ * @param {string} word Der String, dessen 1. Zeichen in Großbuchstaben
+ *                      geschrieben werden soll
+ *
  * @returns {string}
  */
 function ucFirst(word) {
@@ -206,10 +217,11 @@ console.log('ucFirst("sprachkurs")', ucFirst("sprachkurs"))
 //      Neuronale Netze verwendet werden. Die würde man dann aber eher in
 //      C++ oder Python entwickeln als in JavaScript.
 
-
 /**
  * Übersetzt einen Satz
+ *
  * @param {string} sentence Der Satz, der übersetzt werden soll
+ *
  * @returns {string} Der übersetzte Satz
  */
 function translateSentence(sentence) {
