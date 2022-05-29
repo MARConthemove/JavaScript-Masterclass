@@ -6,10 +6,7 @@ const student = {
 }
 
 student.language = "Englisch"
-
 console.log("#1 student: ", student)
 
 delete student.language
-
 console.log("#2 student: ", student)
-
