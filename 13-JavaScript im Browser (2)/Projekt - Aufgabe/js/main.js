@@ -5,8 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const helpElements = document.querySelectorAll("[data-help]")
     for (const helpElement of helpElements) {
         helpElement.addEventListener("click", (event) => {
+            // prevents Browser default behavior
             event.preventDefault()
-            event.stopww()
+            // stops Bubbling up the DOM
+            event.stopPropation()
 
             const helpText = helpElement.attributes["data-help"].value
             alert(helpText)
