@@ -6,21 +6,60 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize Selectors
     const newTodoElement = document.querySelector(".new-todo")
     const todoListElement = document.querySelector(".todo-list")
+    const footerElement = document.querySelector(".footer")
+    const footerCounterElement = document.querySelector(".todo-count strong")
+    const clearCompletedElement = document.querySelector(".clear-completed")
 
-    const checkBoxes = document.querySelectorAll(".toggle")
+    const refreshFooter = () => {
+        if (todoListElement.children.length === 0) {
+            footerElement.style.display = "none"
+        } else {
+            footerElement.style.display = ""
+        }
 
-    // Starting state
+        let todoCounter = 0
+        for (const todoListItem of todoListElement.children) {
+            if (!todoListItem.classList.contains("completed")) {
+                console.log("completed")
+                todoCounter++
+            }
+        }
+        // Alternativ:
+        // let todoCounter = todoListElement.querySelectorAll("li:not(.completed)").length
+        footerCounterElement.innerText = todoCounter
+
+        let completedCounter = todoListElement.querySelectorAll("li.completed").length
+        if (completedCounter === 0) {
+            clearCompletedElement.style.display = "none"
+        } else {
+            clearCompletedElement.style.display = ""
+        }
+    }
+
+    refreshFooter()
+
+    // Starting with empty newTodoBox
     newTodoElement.value = ""
 
     // Event => Checkbox
-    // TODO: new <li> elements should also be checked via addEventListener!
-    const checkCheckbox = () => {
-        console.log("checkbox clicked")
-    }
+    const addCallbacksForLi = (liElement) => {
+        const checkBoxElement = liElement.querySelector(".toggle")
+        const destroyButtonElement = liElement.querySelector(".destroy")
 
-    for (const todoItem of checkBoxes) {
-        todoItem.addEventListener("click", () => {
-            checkCheckbox()
+        // Checkbox Eventlistener:
+        checkBoxElement.addEventListener("change", () => {
+            if (checkBoxElement.checked === true) {
+                liElement.classList.add("completed")
+            } else {
+                liElement.classList.remove("completed")
+            }
+            refreshFooter()
+        })
+
+        // Destroy button event listener:
+        destroyButtonElement.addEventListener("click", () => {
+            liElement.remove()
+            refreshFooter()
         })
     }
 
@@ -64,12 +103,27 @@ document.addEventListener("DOMContentLoaded", () => {
             const liElement = document.createElement("li")
             liElement.appendChild(newDivElement)
 
+            addCallbacksForLi(liElement)
+
             todoListElement.prepend(liElement)
             newTodoElement.value = ""
+
+            refreshFooter()
+
+            // if (todoListElement.childElementCount === 0) {
+            //     console.log("Ich bin leer")
+            // }
         }
     })
 
+    clearCompletedElement.addEventListener("click", (event) => {
+        const completedLiElements = todoListElement.querySelectorAll("li.completed")
+        for (const completedLiElement of completedLiElements) {
+            completedLiElement.remove()
+        }
 
+        refreshFooter()
+    })
 
     // Correct Autocomplete
     // if (cardHeader instanceof HTMLElement) {
