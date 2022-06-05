@@ -20,13 +20,27 @@ const getStudentName = function () {
 
 const studentModule = {
     students: [
-        { firstname: "Max", lastname: "Mustermann", getName: getStudentName }
+        {
+            firstname: "Max",
+            lastname: "Mustermann",
+            getName: getStudentName
+        }
     ],
     addStudent(firstname, lastname) {
         // Schreibe deinen Code hier!
+        const newStudent = {
+            firstname: firstname,
+            lastname: lastname,
+            getName: getStudentName
+        }
+        this.students.push(newStudent)
     },
     printStudents() {
         // Schreibe deinen Code hier!
+        console.log("Teilnehmerliste:")
+        for (const student of this.students) {
+            console.log("- " + student.getName())
+        }
     },
 }
 
@@ -49,22 +63,31 @@ const fs = require("fs")
 
 const rocketModule = {
     launches: [],
-    loadLaunches: () => {
+    loadLaunches: function() {
         if (this.launches.length === 0) {
             console.log("Lese Raketenstarts ein...")
 
             fs.readFile(
                 __dirname + "/spacex/launches.json",
                 { encoding: "utf-8" },
-                function (err, data) {
+                (err, data) => {
                     this.launches = JSON.parse(data)
                 })
+
+            /*
+            fs.readFile(
+                __dirname + "/spacex/launches.json",
+                { encoding: "utf-8" },
+                (function(err, data) {
+                    this.launches = JSON.parse(data)
+                }).bind(this))
+            */
         }
     }
 }
 
 // Kommentiere folgenden Code ein!
-// rocketModule.loadLaunches()
+rocketModule.loadLaunches()
 
 // Gebe alle Startvorgänge aus...
 setTimeout(() => {
