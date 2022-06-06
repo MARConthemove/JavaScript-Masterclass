@@ -166,10 +166,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     liElement.classList.remove("completed")
                 }
             }
-            console.log(labelText)
         }
-        console.log("changeTodo:", todo)
     })
+
+    // Footer-Anzeige aktualisieren
+    const refreshFooter = () => {
+        elements.todoCount.innerText = todoModule.getTodoCount()
+    }
+    todoModule.on("add", refreshFooter)
+    todoModule.on("changeTodo", refreshFooter)
 });
 
 
