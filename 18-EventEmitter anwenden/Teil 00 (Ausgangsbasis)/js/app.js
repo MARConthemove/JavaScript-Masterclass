@@ -29,7 +29,19 @@ const todoModule = {
         for (const todo of this.todos) {
             if (todo.title === title && todo.done === false) {
                 todo.done = true
-                this.emit("complete", todo)
+                this.emit("changeTodo", todo)
+            }
+        }
+    },
+
+    /**
+    * @param {string} title
+    */
+    unCompleteTodo(title) {
+        for (const todo of this.todos) {
+            if (todo.title === title && todo.done === true) {
+                todo.done = false
+                this.emit("changeTodo", todo)
             }
         }
     },
@@ -120,6 +132,16 @@ document.addEventListener("DOMContentLoaded", () => {
         newInputCheckbox.type = "checkbox"
         newInputCheckbox.classList.add("toggle")
 
+        newInputCheckbox.addEventListener("change", (event) => {
+            const checkboxChecked = newInputCheckbox.checked
+            if (checkboxChecked) {
+                todoModule.completeTodo(todo.title)
+            } else {
+                todoModule.unCompleteTodo(todo.title)
+            }
+            console.log("todoModule:", todoModule)
+        })
+
         const newDivElement = document.createElement("div")
         newDivElement.classList.add("view")
         newDivElement.appendChild(newInputCheckbox)
@@ -130,6 +152,23 @@ document.addEventListener("DOMContentLoaded", () => {
         newLiElement.appendChild(newDivElement)
 
         elements.todoList.prepend(newLiElement)
+    })
+
+    // Wenn ein Todo fertiggestellt wird bzw. dies zurückgenommen wird
+    todoModule.on("changeTodo", (todo) => {
+        for (const liElement of elements.todoList.children) {
+            const labelText = liElement.querySelector("label").innerText
+
+            if (todo.title === labelText) {
+                if (todo.done) {
+                    liElement.classList.add("completed")
+                } else {
+                    liElement.classList.remove("completed")
+                }
+            }
+            console.log(labelText)
+        }
+        console.log("changeTodo:", todo)
     })
 });
 
