@@ -13,7 +13,7 @@ const getId = (() => {
 })()
 
 const todoModule = {
-    todos: [] {},
+    todos: [],
 
     /**
      * @param {string} title
