@@ -65,10 +65,10 @@ Student.prototype.getAge = function () {
     return yearNow - this.yearOfBirth
 }
 
-const students = []
-
-students.push(new Student('Max', 'Müller', 1990, 'sehrsicher'))
-students.push(new Student('Erika', 'Mustermann', 1985, 'errätkeiner'))
+const students = [
+    new Student('Max', 'Müller', 1990, 'sehrsicher'),
+    new Student('Erika', 'Mustermann', 1985, 'errätkeiner'),
+]
 
 // Das Alter sollte weiterhin ausgegeben werden
 console.log('students[0].getAge():', students[0].getAge())
@@ -83,3 +83,5 @@ console.log('=> students: ', students)
 //
 // Hier sollte das Passwort nicht mit ausgegeben werden!
 console.log('JSON.stringify(students):', JSON.stringify(students))
+
+// Hiermit sollte die Aufgabe beendet sein.
