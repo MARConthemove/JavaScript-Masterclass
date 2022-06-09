@@ -1,0 +1,14 @@
+{
+  "name": "axiosapichecker",
+  "version": "1.0.0",
+  "description": "small programm to parse from an api with axios",
+  "main": "01-app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "marc gaetcke",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2"
+  }
+}
