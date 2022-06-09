@@ -5,8 +5,9 @@ const f = () => {
   const a = 5
   console.log(a + 5)
 }
+debugger
 
-module.exports = f
+// module.exports = f
 
 /*
 if (module.parent) {
