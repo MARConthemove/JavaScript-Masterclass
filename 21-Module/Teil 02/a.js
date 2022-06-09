@@ -5,16 +5,16 @@ const f = () => {
   const a = 5
   console.log(a + 5)
 }
-debugger
 
-// module.exports = f
+module.exports = f
 
-/*
+
+// module.parent siehe debugger object!
+// test um abzufragen ob die datei eingebunden wurde oder nicht
 if (module.parent) {
   console.log("Datei wurde per require eingebunden")
 } else {
   console.log("Datei wurde nicht per require eingebunden")
 }
-*/
 
 // debugger
