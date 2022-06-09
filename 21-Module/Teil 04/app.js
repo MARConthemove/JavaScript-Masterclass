@@ -2,8 +2,10 @@
 
 const moment = require("moment")
 
-const now = moment()
+console.log(moment().format())
 
-now.add(1, "year").add(1, "month")
+// const now = moment()
 
-console.log(now.format("dddd, MMMM Do YYYY, h:mm:ss a"))
+// now.add(1, "year").add(1, "month")
+
+// console.log(now.format("dddd, MMMM Do YYYY, h:mm:ss a"))
