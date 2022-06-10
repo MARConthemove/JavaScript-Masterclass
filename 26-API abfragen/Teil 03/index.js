@@ -1,11 +1,11 @@
-'use strict'
+"use strict";
 
-const axios = require('axios').default
+const axios = require("axios");
 
 /*
 axios.get("https://api.nal.usda.gov/fdc/v1/foods/search", {
         params: {
-            api_key: "2foBawt5jmtipI7Hb4oyhj8fLZHOAJdjMatzM6Y5",
+            api_key: "f30b8Dr9qFteNLSfCtaOIQX1SHHJSxOIrwfb87Vo",
             query: "Apple Juice"
         }
     })
@@ -16,12 +16,11 @@ axios.get("https://api.nal.usda.gov/fdc/v1/foods/search", {
     });
 */
 
-axios
-    .get('https://api.nal.usda.gov/fdc/v1/food/1102747', {
+axios.get("https://api.nal.usda.gov/fdc/v1/food/1102747", {
         params: {
-            api_key: '2foBawt5jmtipI7Hb4oyhj8fLZHOAJdjMatzM6Y5',
-        },
+            api_key: "f30b8Dr9qFteNLSfCtaOIQX1SHHJSxOIrwfb87Vo"
+        }
     })
-    .then(function (response) {
-        console.log(response.data)
+    .then(function(response) {
+        console.log(response.data);
     })
