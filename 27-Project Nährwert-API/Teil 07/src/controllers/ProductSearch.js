@@ -6,7 +6,7 @@ const { search } = require('../api/product')
 const { on } = require('../utils/dom')
 
 /**
- *
+ * Contructor function ProductSearch
  * @param {HTMLInputElement} inputElement
  * @param {HTMLButtonElement} buttonElement
  * @param {HTMLDivElement} resultElement

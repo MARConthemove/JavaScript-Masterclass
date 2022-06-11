@@ -1,17 +1,27 @@
-"use strict"
+'use strict'
 
-require("../scss/index.scss")
+require('../scss/index.scss')
 
-const ProductSearch = require("./controllers/ProductSearch")
+const ProductSearch = require('./controllers/ProductSearch')
+const ProductList = require('./controllers/ProductList')
 
+// Neue Instanz von ProductSearch erstellt
 const productSearch = new ProductSearch(
-  document.getElementById("productSearchInput"),
-  document.getElementById("productSearchButton"),
-  document.getElementById("productSearchResults")
+    document.getElementById('productSearchInput'),
+    document.getElementById('productSearchButton'),
+    document.getElementById('productSearchResults')
 )
 productSearch.init()
 
-productSearch.events.on("productSelected", (fdcId) => {
-  alert("fdcId: " + fdcId)
+// Neue Instanz von ProductList erstellt
+const productList = new ProductList(
+    document.getElementById('productList')
+)
+
+productList.init()
+
+// Verknüpfung von productSearch mit productList
+productSearch.events.on('productSelected', (fdcId) => {
+    productList.addProduct(fdcId)
 })
 
