@@ -54,7 +54,7 @@ ProductSearch.prototype.runSearch = function(term) {
             this.resultElement.append(linkElement)
         }
 
-        console.log('results:', results)
+        // console.log('results:', results)
     })
 }
 
