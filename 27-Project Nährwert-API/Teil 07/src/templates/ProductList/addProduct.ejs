@@ -1,9 +1,15 @@
-<tr>
+<tr class="product-search__product-row" data-fdc="<%= fdcId %>">
     <td>
         <span><%= title %> </span>
     </td>
     <td>
-        <input class="product-amount" type="number" value="100" min="0" />
+        <input
+            class="product-amount product-search__amount"
+            type="number"
+            value="100"
+            min="0"
+            data-fdc="<%= fdcId %>"
+        />
         <button
             type="button"
             class="close product-search__remove-product"

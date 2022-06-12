@@ -18,27 +18,56 @@ ProductList.prototype.init = function() {
         const fdcId = parseInt(event.handleObj.getAttribute('data-fdc'), 10)
         this.removeProduct(fdcId)
     })
+
+    on('.product-search__amount', 'change', (event) => {
+        const fdcId = parseInt(event.handleObj.getAttribute('data-fdc'), 10)
+        const value = parseInt(event.handleObj.value, 10)
+        this.updateAmount(fdcId, value)
+    })
+}
+
+ProductList.prototype.updateAmount = function(fdcId, value) {
+    for (const product of this.products) {
+        if (product.product["fdcId"] === fdcId) {
+            product.amount = value
+            break
+        }
+    }
+    console.log("updateAmount: ", this.products)
 }
 
 ProductList.prototype.removeProduct = function(fdcId) {
+    // deleting item from array
     let index = null
 
     for (const i in this.products) {
         const product = this.products[i]
-        if (product['fdcId'] === fdcId) {
+        if (product.product['fdcId'] === fdcId) {
             index = i
             break
         }
     }
-    if (index !== 0) {
+    if (index !== null) {
         this.products.splice(index, 1)
+
+        // deleting html <tr> element
+        const trElement = document.querySelector(
+            ".product-search__product-row[data-fdc='" + fdcId + "']"
+        )
+
+        if (trElement) {
+            trElement.remove()
+        }
     }
 }
 
 ProductList.prototype.addProduct = function(fdcId) {
     info(fdcId).then((product) => {
-        this.products.push(product)
-        console.log(this.products)
+        this.products.push({
+            amount: 100,
+            product: product,
+        })
+        console.log("Products Array: ", this.products)
         const productHtml = addProductTemplate({
             title: product['description'],
             fdcId: product['fdcId'],
