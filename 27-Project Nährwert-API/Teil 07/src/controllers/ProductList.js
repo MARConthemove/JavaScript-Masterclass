@@ -100,7 +100,7 @@ ProductList.prototype.removeProduct = function(fdcId) {
 
     for (const i in this.products) {
         const product = this.products[i]
-        if (product.product['fdcId'] === fdcId) {
+        if (("" + product.product["fdcId"]) === ("" + fdcId)) {
             index = i
             break
         }
@@ -124,6 +124,14 @@ ProductList.prototype.removeProduct = function(fdcId) {
 }
 
 ProductList.prototype.addProduct = function(fdcId) {
+
+    for (const product of this.products) {
+        if (("" + product.product["fdcId"]) === ("" + fdcId)) {
+            return
+        }
+    }
+
+
     info(fdcId).then((product) => {
         this.products.push({
             amount: 100,
