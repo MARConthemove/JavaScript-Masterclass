@@ -56,6 +56,10 @@ ProductSearch.prototype.runSearch = function(term) {
 
         // console.log('results:', results)
     })
+    .catch((err) => {
+        alert("Es ist ein Fehler bei der Produktsuche aufgetreten")
+        console.log("error Message: ", err)
+    })
 }
 
 module.exports = ProductSearch

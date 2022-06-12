@@ -32,22 +32,22 @@ ProductList.prototype.init = function() {
 // Funktion "füttert" eventEmitter mit dem nutrientChange Ereignis
 ProductList.prototype.emitNutrients = function() {
     const nutrients = this.getNutrients()
-    this.events.emit("nutrientChange", nutrients)
+    this.events.emit('nutrientChange', nutrients)
 }
 
 ProductList.prototype.getNutrientsForProduct = function(product) {
     const nutrients = {
         carbs: 0,
         protein: 0,
-        fat: 0
+        fat: 0,
     }
 
     for (const foodNutrient of product.product.foodNutrients) {
-        if (("" + foodNutrient.nutrient.number) === "205") {
+        if ('' + foodNutrient.nutrient.number === '205') {
             nutrients.carbs = foodNutrient.amount
-        } else if (("" + foodNutrient.nutrient.number) === "204") {
+        } else if ('' + foodNutrient.nutrient.number === '204') {
             nutrients.fat = foodNutrient.amount
-        } else if (("" + foodNutrient.nutrient.number) === "203") {
+        } else if ('' + foodNutrient.nutrient.number === '203') {
             nutrients.protein = foodNutrient.amount
         }
     }
@@ -56,19 +56,17 @@ ProductList.prototype.getNutrientsForProduct = function(product) {
         carbs: (nutrients.carbs / 100) * product.amount,
         protein: (nutrients.protein / 100) * product.amount,
         fat: (nutrients.fat / 100) * product.amount,
-
     }
-    console.log("product: ", product)
-    console.log("nutrients: ", nutrients)
+    console.log('product: ', product)
+    console.log('nutrients: ', nutrients)
     console.log('getNutrientsForProduct(): ', product)
-
 }
 
 ProductList.prototype.getNutrients = function() {
     const nutrients = {
         carbs: 0,
         protein: 0,
-        fat: 0
+        fat: 0,
     }
 
     for (const product of this.products) {
@@ -85,7 +83,7 @@ ProductList.prototype.getNutrients = function() {
 
 ProductList.prototype.updateAmount = function(fdcId, value) {
     for (const product of this.products) {
-        if (product.product["fdcId"] === fdcId) {
+        if (product.product['fdcId'] === fdcId) {
             product.amount = value
             break
         }
@@ -100,7 +98,7 @@ ProductList.prototype.removeProduct = function(fdcId) {
 
     for (const i in this.products) {
         const product = this.products[i]
-        if (("" + product.product["fdcId"]) === ("" + fdcId)) {
+        if ('' + product.product['fdcId'] === '' + fdcId) {
             index = i
             break
         }
@@ -124,32 +122,36 @@ ProductList.prototype.removeProduct = function(fdcId) {
 }
 
 ProductList.prototype.addProduct = function(fdcId) {
-
     for (const product of this.products) {
-        if (("" + product.product["fdcId"]) === ("" + fdcId)) {
+        if ('' + product.product['fdcId'] === '' + fdcId) {
             return
         }
     }
 
-
-    info(fdcId).then((product) => {
-        this.products.push({
-            amount: 100,
-            product: product,
+    info(fdcId)
+        .catch((err) => {
+            alert(
+                'Produkt konnte nicht hinzugefügt werden, bitte nochmal probieren.'
+            )
         })
+        .then((product) => {
+            this.products.push({
+                amount: 100,
+                product: product,
+            })
 
-        const productHtml = addProductTemplate({
-            title: product['description'],
-            fdcId: product['fdcId'],
+            const productHtml = addProductTemplate({
+                title: product['description'],
+                fdcId: product['fdcId'],
+            })
+
+            this.listElement.insertAdjacentHTML('beforeend', productHtml)
+            // this.listElement.innerHTML = this.listElement.innerHTML + productHtml
+
+            // this.getNutrients()
+
+            this.emitNutrients()
         })
-
-        this.listElement.insertAdjacentHTML('beforeend', productHtml)
-        // this.listElement.innerHTML = this.listElement.innerHTML + productHtml
-
-        // this.getNutrients()
-
-        this.emitNutrients()
-    })
 }
 
 // Exportieren von ProductList über prototype.module.exports = {...}
