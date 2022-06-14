@@ -7,6 +7,4 @@ describe('ProductList', () => {
     listElement = document.createElement("tbody")
     productList = new ProductList(listElement)
   });
-
-
 });
