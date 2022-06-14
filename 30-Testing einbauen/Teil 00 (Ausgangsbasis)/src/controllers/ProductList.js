@@ -120,7 +120,9 @@ ProductList.prototype.addProduct = function(fdcId) {
 
   // start api request
   info(fdcId)
-    .then((product) => this.addFetchedProduct(product))
+    .then((product) => {
+      console.log("product: ", product)
+      this.addFetchedProduct(product)})
     .catch((err) => {
       alert('Produkt konnte nicht hinzugefügt werden, bitte nochmal probieren!')
     })
