@@ -111,30 +111,26 @@ ProductList.prototype.removeProduct = function(fdcId) {
 }
 
 ProductList.prototype.addProduct = function(fdcId) {
-  // check if product already exists
   for (const product of this.products) {
     if ('' + product.product['fdcId'] === '' + fdcId) {
-      return
+      return Promise.resolve()
     }
   }
 
-  // start api request
-  info(fdcId)
-    .then((product) => {
-      console.log("product: ", product)
-      this.addFetchedProduct(product)})
+  return info(fdcId)
+    .then((product) => this.addFetchedProduct(product))
     .catch((err) => {
       alert('Produkt konnte nicht hinzugefügt werden, bitte nochmal probieren!')
     })
 }
 
-// To separate this function it makes it easier to test!
 ProductList.prototype.addFetchedProduct = function(product) {
   this.products.push({
     amount: 100,
-    product: product,
+    product,
   })
-  // console.log('this.products:', this.products)
+  console.log('this.products:', this.products)
+
   const productHtml = addProductTemplate({
     title: product['description'],
     fdcId: product['fdcId'],
@@ -142,8 +138,10 @@ ProductList.prototype.addFetchedProduct = function(product) {
 
   // this.listElement.innerHTML = this.listElement.innerHTML + productHtml
   this.listElement.insertAdjacentHTML('beforeend', productHtml)
+  // console.log(productHtml)
 
   // this.getNutrients()
+
   this.emitNutrients()
 }
 
