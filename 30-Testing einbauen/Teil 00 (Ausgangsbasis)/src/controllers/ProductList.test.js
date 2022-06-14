@@ -1,6 +1,7 @@
 'use strict'
 
-jest.mock("./../api/product")
+jest.mock('../api/product')
+// const productApi = require('../api/product')
 
 const ProductList = require('./ProductList')
 
@@ -13,13 +14,14 @@ describe('ProductList', () => {
   })
 
   describe('addProduct', () => {
-    test("it should add a product", (done) => {
-      // https://jest.js.io/docs/en/mock-functions
-      productList.addFetchedProduct = function(product) {
-        expect(product["fdcId"]).toBe("555")
-        done()
-      }
-      productList.addProduct("555")
+    test('it should add a product', () => {
+      // https://jestjs.io/docs/en/mock-functions
+      productList.addFetchedProduct = jest.fn()
+
+      return productList.addProduct('555').then(() => {
+        expect(productList.addFetchedProduct).toBeCalled()
+        expect(productList.addFetchedProduct.mock.calls.length).toBe(1)
+      })
     })
   })
 
@@ -34,10 +36,10 @@ describe('ProductList', () => {
       productList.addFetchedProduct(product)
       expect(productList.products.length).toBe(1)
       expect(productList.products[0].amount).toBe(100)
-      expect(productList.products[0].product).toBe(product)
+      expect(productList.products[0].product).to(product)
     })
 
-    test('It should generate correct HTML code', () => {
+    test('It should generate correct HTML', () => {
       productList.addFetchedProduct(product)
 
       expect(
