@@ -20,13 +20,13 @@ function ProductList(listElement) {
 ProductList.prototype.init = function() {
   on('.product-search__remove-product', 'click', (event) => {
     const fdcId = parseInt(event.handleObj.getAttribute('data-fdc'), 10)
-    this.removeProduct(fdcId)
+    this.removeProduct('' + fdcId)
   })
 
   on('.product-search__amount', 'change', (event) => {
     const fdcId = parseInt(event.handleObj.getAttribute('data-fdc'), 10)
     const value = parseInt(event.handleObj.value, 10)
-    this.updateAmount(fdcId, value)
+    this.updateAmount('' + fdcId, value)
   })
 }
 
