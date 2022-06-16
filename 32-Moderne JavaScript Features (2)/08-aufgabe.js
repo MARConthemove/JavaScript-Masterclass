@@ -24,11 +24,14 @@ let products = [
 //     zurück in die Variable schreiben lassen:
 //     products = products.map(...)
 
-products = products.map((value) => {
-
+products = products.map((item) => {
+  return {
+    ...item,
+    kcal: item.fat * 9 + item.carbs * 4 + item.protein * 4,
+  }
 })
 
-console.log(products)
+console.log('1a products:', products)
 // 1b) Schreibe ein Programm, welches prüft, ob es ein Produkt
 //     mit mehr als 50g Fett gibt. Wenn ja, dann soll "true"
 //     ausgegeben werden, wenn nicht, "false".
@@ -36,7 +39,20 @@ console.log(products)
 //     Hinweis: Verwende hierzu keine for-Schleife, sondern eine der
 //              neuen Funktionen (aber nicht die .reduce()-Funktion)!
 
+const exists = products.some((item) => item.fat > 50)
+console.log('1b exists:', exists)
+
 // 1c) Kannst du 1b) auch mit einem .reduce() lösen? Wenn ja, wie?
+
+const exists2 = products.reduce((prev, cur) => {
+  if (prev) {
+    return true
+  } else {
+    return cur.fat > 50
+  }
+}, false)
+
+console.log('1c exists2:', exists2)
 
 // 1d) Finde das Produkt, welches am meisten Fett enthält.
 //     Tipp: Hier gibt es mehrere Lösungen.
@@ -57,3 +73,25 @@ console.log(products)
 //
 //         Was für einen initialien Wert würde hier statt dem {key: "value"}
 //         sinn machen?
+
+const maxFat = Math.max(
+  ...products.map((item) => {
+    return item.fat
+  })
+)
+const maxFatProduct = products.find(item => item.fat === maxFat)
+
+console.log('1d maxFat:', maxFat)
+console.log('1d maxFatProduct:', maxFatProduct)
+
+
+const maxFatProduct2 = products.reduce((prev, cur) => {
+  if (prev === null) return cur
+  if (prev.fat > cur.fat) {
+    return prev
+  } else {
+    return cur
+  }
+}, null)
+
+console.log("1e maxFatProducts2: ", maxFatProduct2)
