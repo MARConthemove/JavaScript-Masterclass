@@ -5,16 +5,8 @@ import { on } from '../utils/dom'
 import addProductTemplate from '../templates/ProductList/addProduct.ejs'
 import EventEmitter from 'eventemitter3'
 
-/* OLD CODE:
-const {info} = require("../api/product")
-const {on} = require("../utils/dom")
-const addProductTemplate = require("../templates/ProductList/addProduct.ejs")
-const EventEmitter = require("eventemitter3")
-*/
-
 export default class ProductList {
   /**
-   *
    * @param {HTMLTableElement} listElement
    */
   constructor(listElement) {
@@ -42,20 +34,22 @@ export default class ProductList {
   }
 
   getNutrientsForProduct(product) {
-    const nutrients = {
-      carbs: 0,
-      protein: 0,
-      fat: 0,
+    const getAmount = (number) => {
+      const nutrient = product.product.foodNutrients.find(
+        (foodNutrient) => '' + foodNutrient.nutrient.number === number
+      )
+      if (nutrient) {
+        return nutrient.amount
+      } else {
+        return 0
+      }
     }
 
-    for (const foodNutrient of product.product.foodNutrients) {
-      if ('' + foodNutrient.nutrient.number === '205') {
-        nutrients.carbs = foodNutrient.amount
-      } else if ('' + foodNutrient.nutrient.number === '204') {
-        nutrients.fat = foodNutrient.amount
-      } else if ('' + foodNutrient.nutrient.number === '203') {
-        nutrients.protein = foodNutrient.amount
-      }
+    // https://github.com/tc39/proposal-optional-chaining
+    const nutrients = {
+      carbs: getAmount('205'),
+      protein: getAmount('203'),
+      fat: getAmount('204'),
     }
 
     return {
@@ -66,43 +60,36 @@ export default class ProductList {
   }
 
   getNutrients() {
-    const nutrients = {
-      carbs: 0,
-      protein: 0,
-      fat: 0,
-    }
-
-    for (const product of this.products) {
-      const productNutrients = this.getNutrientsForProduct(product)
-
-      nutrients.carbs += productNutrients.carbs
-      nutrients.protein += productNutrients.protein
-      nutrients.fat += productNutrients.fat
-    }
-
-    return nutrients
+    return this.products.map(this.getNutrientsForProduct, this).reduce(
+      (prev, cur) => {
+        prev.carbs += cur.carbs
+        prev.protein += cur.protein
+        prev.fat += cur.fat
+        return prev
+      },
+      {
+        carbs: 0,
+        protein: 0,
+        fat: 0,
+      }
+    )
   }
 
   updateAmount(fdcId, value) {
     for (const product of this.products) {
-      if (product.product['fdcId'] === fdcId) {
+      if ('' + product.product['fdcId'] === '' + fdcId) {
         product.amount = value
         break
       }
     }
     this.emitNutrients()
-    // console.log("updateAmount:", this.products)
   }
 
   removeProduct(fdcId) {
-    let index = null
-    for (const i in this.products) {
-      const product = this.products[i]
-      if ('' + product.product['fdcId'] === '' + fdcId) {
-        index = i
-        break
-      }
-    }
+    let index = this.products.findIndex(
+      (product) => '' + product.product['fdcId'] === '' + fdcId
+    )
+
     if (index !== null) {
       this.products.splice(index, 1)
 
@@ -113,23 +100,21 @@ export default class ProductList {
     }
 
     this.emitNutrients()
-    // console.log("this.products:", this.products)
   }
 
   async addProduct(fdcId) {
-    for (const product of this.products) {
-      if ('' + product.product['fdcId'] === '' + fdcId) {
-        return Promise.resolve()
-      }
-    }
+    const exists = this.products.find(
+      (product) => '' + product.product['fdcId'] === '' + fdcId
+    )
 
-    return info(fdcId)
-      .then((product) => this.addFetchedProduct(product))
-      .catch((err) => {
-        alert(
-          'Produkt konnte nicht hinzugefügt werden, bitte nochmal probieren!'
-        )
-      })
+    if (exists) return
+
+    try {
+      const product = await info(fdcId)
+      this.addFetchedProduct(product)
+    } catch (e) {
+      alert('Produkt konnte nicht hinzugefügt werden, bitte nochmal probieren!')
+    }
   }
 
   addFetchedProduct(product) {
@@ -153,5 +138,3 @@ export default class ProductList {
     this.emitNutrients()
   }
 }
-
-module.exports = ProductList
