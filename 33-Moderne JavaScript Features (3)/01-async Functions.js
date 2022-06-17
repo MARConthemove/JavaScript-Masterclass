@@ -19,7 +19,7 @@ async function run() {
     console.log('err:', err)
   }
 }
-
+// Diese Schreibweise ist auch möglich
 const f = async () => {}
 
 run()
