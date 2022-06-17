@@ -51,7 +51,8 @@
       "ejx"
     ],
     "transform": {
-      "^.+\\.ejs$": "./src/testing/preprocess-ejs"
+      "^.+\\.ejs$": "./src/testing/preprocess-ejs",
+      "^.+\\.js$": "babel-jest"
     }
   }
 }

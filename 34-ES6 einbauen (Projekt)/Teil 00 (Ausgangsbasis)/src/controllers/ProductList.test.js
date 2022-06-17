@@ -4,7 +4,7 @@ jest.mock("../api/product")
 const productApi = require("../api/product")
 console.log(productApi.info.mock)
 
-const ProductList = require("./ProductList")
+import ProductList from "./ProductList"
 
 describe("ProductList", () => {
   let productList, listElement
@@ -15,7 +15,7 @@ describe("ProductList", () => {
     tableElement.appendChild(listElement)
 
     document.body.appendChild(tableElement)
-    
+
     productList = new ProductList(listElement)
   })
 
@@ -77,7 +77,7 @@ describe("ProductList", () => {
       })
       productList.updateAmount("12345", 250)
     })
-    
+
   })
 
 
@@ -85,7 +85,7 @@ describe("ProductList", () => {
   describe("addProduct", () => {
     test("it should add a product", () => {
       // https://jestjs.io/docs/en/mock-functions
-      
+
       productList.addFetchedProduct = jest.fn()
       return productList.addProduct("555")
         .then(() => {
