@@ -9,7 +9,7 @@ const urlParse = require("url-parse")
 const app = http.createServer((req, res) => {
   const parsedUrl = urlParse(req.url)
   const sanitizePath = path.normalize(parsedUrl.pathname).replace(/^(\.\.[\/\\])+/, '')
-  
+
   const absolutePath = path.join(__dirname, "public", sanitizePath)
   const content = fs.readFileSync(absolutePath)
 
